@@ -1,59 +1,52 @@
 .App {
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
+  padding-top: 80px;
+}
+.App > h1 {
+  margin-bottom: 5px;
 }
 
-body {
-  background: #001628;
-  color: #777;
-  padding: 4em;
-  font-family: sans-serif;
-  line-height: 1.15;
-}
-
-hr {
-  /*dummy content*/
-  height: 6px;
-  border: none;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-hr:last-child {
-  /*dummy content*/
-  margin-right: 60%;
-}
-
-hr.image {
-  /*dummy content*/
-  padding-bottom: 50%;
+.results {
+  display: grid;
+  flex-wrap: wrap;
 }
 
 .page {
   padding: 2em;
-  background: #cecece;
-  max-width: 1100px;
+  background: #d8d8d8;
 }
 
-.archive {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  grid-gap: 1em;
+.terms {
+  border-radius: 5px;
+  margin: 10px;
+  background-color: rgb(240, 240, 240);
 }
 
-.article {
+.result {
+  background: rgb(255, 255, 255);
+  position: relative;
+  border-radius: 5px;
   padding: 1em;
-  background: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 20px 20px rgba(0, 0, 0, 0.05);
+  margin: 10px;
+  color: #333;
+  box-sizing: content-box;
+  width: 45%;
+  background-color: rgb(240, 240, 240);
 }
 
-.link {
-  background: none!important;
-  border: none;
-  padding: 0!important;
-  /*optional*/
-  font-family: arial, sans-serif;
-  /*input has OS specific font-family*/
-  color: #069;
-  text-decoration: underline;
-  cursor: pointer;
+.result h3 {
+  margin-bottom: 5px;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.result h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.3rem;
+}
+
+.details {
+  text-align: left;
 }

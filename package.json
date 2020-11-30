@@ -1,20 +1,19 @@
 {
-  "name": "api-practice-v12",
+  "name": "api-discovery-project-v10",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.30",
-    "@fortawesome/free-regular-svg-icons": "5.14.0",
-    "@fortawesome/free-solid-svg-icons": "5.14.0",
-    "@fortawesome/react-fontawesome": "0.1.11",
-    "bootstrap": "4.5.2",
-    "react": "16.12.0",
-    "react-bootstrap": "1.3.0",
-    "react-dom": "16.12.0",
+    "@fortawesome/fontawesome-svg-core": "1.2.32",
+    "@fortawesome/free-solid-svg-icons": "5.15.1",
+    "@fortawesome/react-fontawesome": "0.1.13",
+    "bootstrap": "4.5.3",
+    "react": "17.0.0",
+    "react-bootstrap": "1.4.0",
+    "react-dom": "17.0.0",
     "react-router-dom": "5.2.0",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.4.3"
   },
   "devDependencies": {
     "typescript": "3.8.3"
