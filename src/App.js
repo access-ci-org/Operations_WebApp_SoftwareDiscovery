@@ -39,7 +39,7 @@ function TypeMapping(CurrentResourceType) {
   }
 }
 function KeyWords(CurrentKeyWords) {
-  if (CurrentKeyWords !== "") {
+  if (CurrentKeyWords !== "" && CurrentKeyWords !== null) {
     return (
       <React.Fragment>
         <b>&nbsp;KeyWords&nbsp;</b>
@@ -51,7 +51,7 @@ function KeyWords(CurrentKeyWords) {
   return;
 }
 function QualityLevel(CurrentQualityLevel) {
-  if (CurrentQualityLevel !== "") {
+  if (CurrentQualityLevel !== "" && CurrentQualityLevel !== null) {
     return (
       <React.Fragment>
         <b>&nbsp;Quality Level&nbsp;</b>
@@ -63,7 +63,7 @@ function QualityLevel(CurrentQualityLevel) {
   return;
 }
 function Audience(CurrentAudience) {
-  if (CurrentAudience !== "") {
+  if (CurrentAudience !== "" && CurrentAudience !== null) {
     return (
       <React.Fragment>
         <b>&nbsp;Audience&nbsp;</b>
@@ -91,12 +91,12 @@ class App extends Component {
       resourceGroup: "",
       type: "",
       provider: "",
-      //pageNumber: 1,
       activePage: 1,
       checkedName: true,
       checkedDescription: true,
       checkedTopics: true,
-      checkedKeywords: true
+      checkedKeywords: true,
+      searchTime: 0
     };
   }
 
@@ -106,14 +106,23 @@ class App extends Component {
 
   handleSearchTerm = (event) => {
     this.setState({
-      searchTerm: event.target.value,
+      searchTerm: event.target.value
+    });
+  };
+
+  handleSearchButton = () => {
+    this.setState({
       activePage: 1
     });
+    this.componentDidMount();
   };
 
   handlePageChange(activePage) {
     //console.log(`active page is ${pageNumber - 1}`);
-    this.setState({ activePage: activePage });
+    this.setState({
+      activePage: activePage,
+      searchTerm: ""
+    });
   }
 
   BackPage = () => {
@@ -121,7 +130,7 @@ class App extends Component {
     this.setState({ individualTrue: false });
   };
 
-  handleClick() {
+  handleClick = () => {
     console.log("reset");
     this.setState({
       individualTrue: false,
@@ -139,7 +148,7 @@ class App extends Component {
       checkedKeywords: true
     });
     this.componentDidMount();
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -162,7 +171,6 @@ class App extends Component {
   async componentDidMount() {
     console.log("didmount called....");
     console.log("individualTrue = ", this.state.individualTrue);
-    console.log(this.state.checkedKeywords);
     //https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?resource_groups=Software&page=1
     //https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?resource_groups=Software&page=1&format=json
     if (this.state.individualTrue === false) {
@@ -209,10 +217,17 @@ class App extends Component {
         "&search_fields=" +
         this.state.searchField;
       //const url = "https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?format=json&aggregations=type,affiliation,resourcegroup&search_terms="
+
+      console.log(this.state.searchTerm);
       console.log(url);
+      var currentTimeInMillisecondsBefore = Date.now();
       const response = await fetch(url);
       const data = await response.json();
+      var currentTimeInMillisecondsAfter = Date.now();
+      //this.state.searchTime = currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore;
       this.setState({
+        searchTime:
+          currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore,
         result: data.results,
         aggregations: data.aggregations,
         total: data.total_results,
@@ -266,7 +281,7 @@ class App extends Component {
                       />
                       <button
                         className="btn btn-primary"
-                        onClick={() => this.componentDidMount()}
+                        onClick={() => this.handleSearchButton()}
                       >
                         <FontAwesomeIcon size="1x" icon={faSearch} />
                       </button>
@@ -332,7 +347,7 @@ class App extends Component {
                 </Row>
                 <Row>
                   <Col xs={{ span: 8, offset: 4 }} lg={{ span: 10, offset: 2 }}>
-                    {this.state.activePage * 25 < total && (
+                    {this.state.activePage * 25 <= total && (
                       <div>
                         <b className="textCSS">
                           Viewing: {(this.state.activePage - 1) * 25 + 1} -{" "}
@@ -512,6 +527,9 @@ class App extends Component {
                       hideFirstLastPages={true}
                       onChange={this.handlePageChange.bind(this)}
                     />
+                    <b className="textCSS">
+                      Query Took: {this.state.searchTime}ms
+                    </b>
                   </Col>
                 </Row>
               </div>
