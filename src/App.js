@@ -225,13 +225,31 @@ class App extends Component {
       const data = await response.json();
       var currentTimeInMillisecondsAfter = Date.now();
       //this.state.searchTime = currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore;
+
+      let stateFromSettings = {}
+      if (window.SETTINGS.resourceGroup) {
+        data.aggregations.ResourceGroup = data.aggregations.ResourceGroup
+                            .filter(({Name}) => Name === window.SETTINGS.resourceGroup);
+
+        stateFromSettings["resourceGroup"] = window.SETTINGS.resourceGroup;
+      }
+
+      if (window.SETTINGS.affiliation) {
+        data.aggregations.Affiliation = data.aggregations.Affiliation
+                            .filter(({Name}) => Name === window.SETTINGS.affiliation);
+
+        stateFromSettings["affiliation"] = window.SETTINGS.affiliation;
+      }
+
       this.setState({
         searchTime:
           currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore,
         result: data.results,
         aggregations: data.aggregations,
         total: data.total_results,
-        loading: false
+        loading: false,
+        resourceGroup: "Software",
+        ...stateFromSettings
       });
     } else if (this.state.individualTrue === true) {
       // const { id } = this.props.id;
@@ -253,6 +271,14 @@ class App extends Component {
     }
   }
 
+  getTitle() {
+    if (window.SETTINGS.title) {
+        return window.SETTINGS.title
+    } else {
+        return "Resource Tools and Services Discovery"
+    }
+  }
+
   render() {
     const { loading, result, aggregations, total, individualTrue } = this.state;
     if (loading) {
@@ -269,7 +295,7 @@ class App extends Component {
           <React.Fragment>
             <Container fluid>
               <div className="page">
-                <h1 className="title">Resource Tools and Services Discovery</h1>
+                <h1 className="title">{this.getTitle()}</h1>
                 <Row>
                   <Col xs={{ span: 8, offset: 4 }} lg={{ span: 10, offset: 2 }}>
                     <div className="input-box">
@@ -542,7 +568,7 @@ class App extends Component {
       return (
         <Container fluid>
           <div className="page">
-            <h1 className="title">Resource Tools and Services Discovery</h1>
+            <h1 className="title">{this.getTitle()}</h1>
             <button className="btn btn-primary" onClick={this.BackPage}>
               <FontAwesomeIcon size="1x" icon={faArrowLeft} />
             </button>
