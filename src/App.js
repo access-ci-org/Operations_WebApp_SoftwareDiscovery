@@ -12,6 +12,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faWindowRestore } from "@fortawesome/free-solid-svg-icons";
 import { Container, Row, Col } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from "react-js-pagination";
 import { Checkbox, FormGroup, FormControlLabel } from "@material-ui/core";
 
@@ -406,10 +407,10 @@ class App extends Component {
                     <br />
                     <div className="terms">
                       <b className="selectionHeader">By Affiliation:</b> <br />
-                      {aggregations.Affiliation.map((affiliation) => (
+                      {aggregations.Affiliation.map((affiliation, affiliationIndex) => (
                         <div
                           className="selectionDetails"
-                          key={aggregations.Affiliation.Name}
+                          key={affiliationIndex}
                         >
                           <Link
                             to={this.props}
@@ -427,10 +428,10 @@ class App extends Component {
                       ))}
                       <b className="selectionHeader">By Resource Group:</b>{" "}
                       <br />
-                      {aggregations.ResourceGroup.map((ResourceGroup) => (
+                      {aggregations.ResourceGroup.map((ResourceGroup, ResourceGroupIndex) => (
                         <div
                           className="selectionDetails"
-                          key={aggregations.ResourceGroup.Name}
+                          key={ResourceGroupIndex}
                         >
                           <Link
                             to={this.props}
@@ -448,10 +449,10 @@ class App extends Component {
                         </div>
                       ))}
                       <b className="selectionHeader">By Type:</b> <br />
-                      {aggregations.Type.map((Type) => (
+                      {aggregations.Type.map((Type, TypeIndex) => (
                         <div
                           className="selectionDetails"
-                          key={aggregations.Type.Name}
+                          key={TypeIndex}
                         >
                           <Link
                             to={this.props}
@@ -469,10 +470,10 @@ class App extends Component {
                         </div>
                       ))}
                       <b className="selectionHeader">By Provider:</b> <br />
-                      {aggregations.ProviderID.map((Provider) => (
+                      {aggregations.ProviderID.map((Provider, ProviderIndex) => (
                         <div
                           className="selectionDetails"
-                          key={aggregations.ProviderID.Name}
+                          key={ProviderIndex}
                         >
                           <Link
                             to={this.props}
@@ -493,8 +494,8 @@ class App extends Component {
                   </Col>
                   <Col xs="8" lg="10">
                     <div className="results">
-                      {result.map((resource) => (
-                        <div key={resource.ID}>
+                      {result.map((resource, resourceIndex) => (
+                        <div key={resourceIndex}>
                           <article className="result">
                             {/*<h3>{resource.Affiliation}</h3>*/}
                             <h2>
@@ -574,8 +575,8 @@ class App extends Component {
             <Row>
               <Col xs={10}>
                 <div className="results">
-                  {result.map((resource) => (
-                    <div key={resource.ID} class="article">
+                  {result.map((resource, resourceIndex) => (
+                    <div key={resourceIndex} class="article">
                       <article className="result">
                         <div className="individualh1">
                           <b>{resource.Name}</b>
@@ -601,8 +602,8 @@ class App extends Component {
                           <h1>Relations</h1>
                           <br />
                           {resource.Relations &&
-                            resource.Relations.map((resource) => (
-                              <div>
+                            resource.Relations.map((resource, resourceIndex) => (
+                              <div key={resourceIndex}>
                                 <b>&nbsp;{resource.RelationType}&nbsp;</b>
                                 {resource.Name}
                               </div>
