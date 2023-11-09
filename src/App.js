@@ -202,7 +202,8 @@ class App extends Component {
       console.log(this.state.searchField);
       //this.state.pageNumber = this.state.activePage - 1;
       const url =
-        "https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?format=json&aggregations=type,affiliation,resourcegroup,providerid&search_terms=" +
+        "https://operations-api.access-ci.org/wh2/resource/v4/resource_esearch/?format=json&aggregations=type,affiliation,resourcegroup,providerid&search_terms="+
+        // "https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?format=json&aggregations=type,affiliation,resourcegroup,providerid&search_terms=" +
         this.state.searchTerm +
         "&page=" +
         this.state.activePage +
@@ -246,7 +247,7 @@ class App extends Component {
           currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore,
         result: data.results,
         aggregations: data.aggregations,
-        total: data.total_results,
+        total: data.count,
         loading: false,
         resourceGroup: "Software",
         ...stateFromSettings
@@ -258,7 +259,8 @@ class App extends Component {
       // console.log('id = ', id);
       const r_id = this.state.resourceID; // window.location.pathname;
       const url =
-        "https://info.xsede.org/wh1/resource-api/v3/resource/id/" +
+        "https://operations-api.access-ci.org/wh2/resource/v4/resource/id/" +
+        // "https://info.xsede.org/wh1/resource-api/v3/resource/id/" +
         r_id +
         "/?format=json";
 
@@ -576,7 +578,7 @@ class App extends Component {
               <Col xs={10}>
                 <div className="results">
                   {result.map((resource, resourceIndex) => (
-                    <div key={resourceIndex} class="article">
+                    <div key={resourceIndex} className="article">
                       <article className="result">
                         <div className="individualh1">
                           <b>{resource.Name}</b>
