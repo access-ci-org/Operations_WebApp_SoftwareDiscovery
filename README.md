@@ -4,20 +4,13 @@ Created with CodeSandbox
 # How to integrate on your website
 
 ```html
-
-    <link href="https://cdn.jsdelivr.net/gh/dinukadesilva/react-webapp-pilot/build/static/css/2.cbdafa58.chunk.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/dinukadesilva/react-webapp-pilot/build/static/css/main.bf8ea82d.chunk.css" rel="stylesheet">
-
     <script>
-        window.SETTINGS = {
-            title: "ACCESS Resource Provider Software Discovery", // string or null
-            affiliation: "xsede.org", // string
-            resourceGroup: "Software", // string
-        };
+        window.SETTINGS={title:"ACCESS Resource Provider Software Discovery",affiliation:"access-ci.org",resourceGroup:"Software"}
     </script>
-    <div id="Operations_WebApp_SoftwareDiscovery"></div>
+    <script defer="defer" src="https://cdn.jsdelivr.net/gh/dinukadesilva/react-webapp-pilot/build/static/js/main.a280d2ba.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/dinukadesilva/react-webapp-pilot/build/static/css/main.6c265c61.css" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/gh/dinukadesilva/react-webapp-pilot/build/static/js/2.9ee4462d.chunk.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/dinukadesilva/react-webapp-pilot/build/static/js/main.8c11218f.chunk.js"></script>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="Operations_WebApp_SoftwareDiscovery"></div>
 
 ```
