@@ -408,8 +408,12 @@ class App extends Component {
                     </button>
                     <br />
                     <div className="terms">
-                      <b className="selectionHeader">By Affiliation:</b> <br />
-                      {aggregations.Affiliation.map((affiliation, affiliationIndex) => (
+                      {aggregations.Affiliation && aggregations.Affiliation.length > 1 ?
+
+                        <>
+                          <b className="selectionHeader">
+                          By Affiliation:</b> <br />
+                          {aggregations.Affiliation.map((affiliation, affiliationIndex) => (
                         <div
                           className="selectionDetails"
                           key={affiliationIndex}
@@ -428,28 +432,37 @@ class App extends Component {
                           {" (" + affiliation.count + ")"}
                         </div>
                       ))}
-                      <b className="selectionHeader">By Resource Group:</b>{" "}
-                      <br />
-                      {aggregations.ResourceGroup.map((ResourceGroup, ResourceGroupIndex) => (
-                        <div
-                          className="selectionDetails"
-                          key={ResourceGroupIndex}
-                        >
-                          <Link
-                            to={this.props}
-                            onClick={() =>
-                              this.setState({
-                                resourceGroup: ResourceGroup.Name
-                              })
-                            }
-                          >
-                            <FontAwesomeIcon size="1x" icon={faCog} />{" "}
-                            {ResourceGroup.Name}
-                          </Link>
-                          {" (" + ResourceGroup.count + ")"}
+                        </>: null
+                      }
+
+                      {aggregations.ResourceGroup && aggregations.ResourceGroup.length > 1 ?
+
+                        <>
+                          <b className="selectionHeader">By Resource Group:</b>{" "}
                           <br />
-                        </div>
-                      ))}
+                          {aggregations.ResourceGroup.map((ResourceGroup, ResourceGroupIndex) => (
+                            <div
+                              className="selectionDetails"
+                              key={ResourceGroupIndex}
+                            >
+                              <Link
+                                to={this.props}
+                                onClick={() =>
+                                  this.setState({
+                                    resourceGroup: ResourceGroup.Name
+                                  })
+                                }
+                              >
+                                <FontAwesomeIcon size="1x" icon={faCog} />{" "}
+                                {ResourceGroup.Name}
+                              </Link>
+                              {" (" + ResourceGroup.count + ")"}
+                              <br />
+                            </div>
+                          ))}
+                        </>: null
+                      }
+
                       <b className="selectionHeader">By Type:</b> <br />
                       {aggregations.Type.map((Type, TypeIndex) => (
                         <div
@@ -510,7 +523,7 @@ class App extends Component {
                                   })
                                 }
                               >
-                                {resource.Name}
+                                {resource.ShortDescription}
                               </Link>
                             </h2>
                             <div className="details">
@@ -518,9 +531,10 @@ class App extends Component {
                                 {TypeMapping(resource.Type)}
                                 {"  " +
                                   resource.Type +
-                                  "; Affiliation: " +
-                                  resource.Affiliation +
-                                  " "}
+//                                  "; Affiliation: " +
+//                                  resource.Affiliation +
+                                  " "
+                                  }
                                 <div className="noNewLine">
                                   <FontAwesomeIcon size="1x" icon={faCog} />
                                   <div className="noNewLine">
@@ -581,7 +595,7 @@ class App extends Component {
                     <div key={resourceIndex} className="article">
                       <article className="result">
                         <div className="individualh1">
-                          <b>{resource.Name}</b>
+                          <b>{resource.ShortDescription}</b>
                         </div>
                         <br />
                         <div className="details">
@@ -607,7 +621,7 @@ class App extends Component {
                             resource.Relations.map((resource, resourceIndex) => (
                               <div key={resourceIndex}>
                                 <b>&nbsp;{resource.RelationType}&nbsp;</b>
-                                {resource.Name}
+                                {resource.ShortDescription}
                               </div>
                             ))}
                         </div>
