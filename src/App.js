@@ -12,7 +12,6 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faWindowRestore } from "@fortawesome/free-solid-svg-icons";
 import { Container, Row, Col } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from "react-js-pagination";
 import { Checkbox, FormGroup, FormControlLabel } from "@material-ui/core";
 
