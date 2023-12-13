@@ -53,7 +53,7 @@ function QualityLevel(CurrentQualityLevel) {
   if (CurrentQualityLevel !== "" && CurrentQualityLevel !== null) {
     return (
       <React.Fragment>
-        <b>&nbsp;Quality Level&nbsp;</b>
+        <b>Quality Level : </b>
         <div className="attributes">{CurrentQualityLevel}</div>
         <br />
       </React.Fragment>
@@ -65,7 +65,7 @@ function Audience(CurrentAudience) {
   if (CurrentAudience !== "" && CurrentAudience !== null) {
     return (
       <React.Fragment>
-        <b>&nbsp;Audience&nbsp;</b>
+        <b>Audience : </b>
         <div className="attributes">{CurrentAudience}</div>
         <br />
       </React.Fragment>
@@ -544,11 +544,11 @@ class App extends Component {
                                   </div>
                                 </div>
                               </div>
-                              <p
-                                dangerouslySetInnerHTML={{
-                                  __html: resource.Description
-                                }}
-                              ></p>
+                              {/*<p*/}
+                              {/*  dangerouslySetInnerHTML={{*/}
+                              {/*    __html: resource.Description*/}
+                              {/*  }}*/}
+                              {/*></p>*/}
                             </div>
                           </article>
                         </div>
@@ -617,10 +617,10 @@ class App extends Component {
                           <h1>Relations</h1>
                           <br />
                           {resource.Relations &&
-                            resource.Relations.map((resource, resourceIndex) => (
-                              <div key={resourceIndex}>
-                                <b>&nbsp;{resource.RelationType}&nbsp;</b>
-                                {resource.ShortDescription}
+                            resource.Relations.map((relation, relationIndex) => (
+                              <div key={relationIndex}>
+                                <b>{relation.RelationType} : </b>
+                                {relation.Name}
                               </div>
                             ))}
                         </div>
