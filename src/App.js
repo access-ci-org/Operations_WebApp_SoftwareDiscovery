@@ -462,8 +462,10 @@ class App extends Component {
                         </>: null
                       }
 
-                      <b className="selectionHeader">By Type:</b> <br />
-                      {aggregations.Type.map((Type, TypeIndex) => (
+                      {aggregations.ResourceGroup && aggregations.ResourceGroup.length > 1 ?
+                        <>
+                          <b className="selectionHeader">By Type:</b> <br />
+                          {aggregations.Type.map((Type, TypeIndex) => (
                         <div
                           className="selectionDetails"
                           key={TypeIndex}
@@ -483,6 +485,9 @@ class App extends Component {
                           <br />
                         </div>
                       ))}
+                        </> : null
+                      }
+
                       <b className="selectionHeader">By Provider:</b> <br />
                       {aggregations.ProviderID.map((Provider, ProviderIndex) => (
                         <div
