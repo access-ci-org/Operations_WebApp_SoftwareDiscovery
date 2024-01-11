@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import "./styles.css";
+import "./scss/style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { faRunning } from "@fortawesome/free-solid-svg-icons";
@@ -13,28 +13,27 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faWindowRestore } from "@fortawesome/free-solid-svg-icons";
 import { Container, Row, Col } from "react-bootstrap";
 import Pagination from "react-js-pagination";
-import { Checkbox, FormGroup, FormControlLabel } from "@material-ui/core";
 
 function ProviderIDMapping(CurrentProviderID, ProviderArray) {
   for (let i = 0; i < ProviderArray.length; i++) {
     if (CurrentProviderID === ProviderArray[i].ID) {
-      return <p>&nbsp;{ProviderArray[i].Name}</p>;
+      return <span>&nbsp;{ProviderArray[i].Name}</span>;
     }
   }
-  return <p>&nbsp;No Provider</p>;
+  return <span>&nbsp;No Provider</span>;
 }
 
 function TypeMapping(CurrentResourceType) {
   if (CurrentResourceType === "Executable Software") {
-    return <FontAwesomeIcon size="1x" icon={faRunning} />;
+    return <FontAwesomeIcon size="sm" icon={faRunning} />;
   } else if (CurrentResourceType === "Online Service") {
-    return <FontAwesomeIcon size="1x" icon={faLaptop} />;
+    return <FontAwesomeIcon size="sm" icon={faLaptop} />;
   } else if (CurrentResourceType === "Cloud Image") {
-    return <FontAwesomeIcon size="1x" icon={faCloud} />;
+    return <FontAwesomeIcon size="sm" icon={faCloud} />;
   } else if (CurrentResourceType === "Vendor Software") {
-    return <FontAwesomeIcon size="1x" icon={faUsers} />;
+    return <FontAwesomeIcon size="sm" icon={faUsers} />;
   } else {
-    return <FontAwesomeIcon size="1x" icon={faCog} />;
+    return <FontAwesomeIcon size="sm" icon={faCog} />;
   }
 }
 function KeyWords(CurrentKeyWords) {
@@ -295,121 +294,96 @@ class App extends Component {
         <Router>
           <React.Fragment>
             <Container fluid>
-              <div className="page">
-                <h1 className="title">{this.getTitle()}</h1>
-                <Row>
-                  <Col xs={{ span: 8, offset: 4 }} lg={{ span: 10, offset: 2 }}>
-                    <div className="input-box">
-                      <input
-                        className="form-control"
-                        type="text"
-                        value={this.state.searchTerm}
-                        onChange={this.handleSearchTerm}
-                      />
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => this.handleSearchButton()}
-                      >
-                        <FontAwesomeIcon size="1x" icon={faSearch} />
-                      </button>
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={{ span: 8, offset: 4 }} lg={{ span: 10, offset: 2 }}>
-                    <b className="textCSS">
-                      Search Fields (at least one required): &nbsp;
+              <div className="w-100">
+                <h1>{this.getTitle()}</h1>
+                <div className=" w-100 d-flex flex-row">
+                  <input
+                    className="form-control form-control-sm"
+                    type="text"
+                    value={this.state.searchTerm}
+                    onChange={this.handleSearchTerm}
+                  />
+                  <button
+                    className="btn btn-primary ml-1 pt-0 pb-0"
+                    onClick={() => this.handleSearchButton()}
+                  >
+                    <FontAwesomeIcon size="xs" icon={faSearch} />
+                  </button>
+                </div>
+                <div className="w-100 d-flex flex-row">
+                    <b className="pl-0 pr-2 pt-2 pb-2">
+                      Search Fields (at least one required):
                     </b>
-                    <div className="noNewLine">
-                      <FormGroup row>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={this.state.checkedName}
+                    <div className="d-flex flex-row">
+                      <div className="form-check m-2">
+                        <input className="form-check-input bg-dark" type="checkbox" checked={this.state.checkedName}
                               onChange={this.handleCheckbox("checkedName")}
-                              value="checkedName"
-                              color="primary"
-                            />
-                          }
-                          label="Name"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={this.state.checkedDescription}
-                              onChange={this.handleCheckbox(
-                                "checkedDescription"
-                              )}
-                              value="checkedDescription"
-                              color="primary"
-                            />
-                          }
-                          label="Description"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={this.state.checkedTopics}
-                              onChange={this.handleCheckbox("checkedTopics")}
-                              value="checkedTopics"
-                              color="primary"
-                            />
-                          }
-                          label="Topics"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={this.state.checkedKeywords}
-                              onChange={this.handleCheckbox("checkedKeywords")}
-                              value="checkedKeywords"
-                              color="primary"
-                            />
-                          }
-                          label="Keywords"
-                        />
-                      </FormGroup>
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={{ span: 8, offset: 4 }} lg={{ span: 10, offset: 2 }}>
-                    {this.state.activePage * 25 <= total && (
-                      <div>
-                        <b className="textCSS">
-                          Viewing: {(this.state.activePage - 1) * 25 + 1} -{" "}
-                          {this.state.activePage * 25} of {total}{" "}
-                          &nbsp;&nbsp;&nbsp;&nbsp; Click on a title to view item
-                          details.
-                        </b>
+                              value="checkedName" id="checkedName" />
+                        <label className="form-check-label" htmlFor="checkedName">
+                          Name
+                        </label>
                       </div>
+
+                      <div className="form-check m-2">
+                        <input className="form-check-input bg-dark" type="checkbox" checked={this.state.checkedDescription}
+                              onChange={this.handleCheckbox("checkedDescription")} id="checkedDescription" />
+                        <label className="form-check-label" htmlFor="checkedDescription">
+                          Description
+                        </label>
+                      </div>
+
+                      <div className="form-check m-2">
+                        <input className="form-check-input bg-dark" type="checkbox" checked={this.state.checkedTopics}
+                              onChange={this.handleCheckbox("checkedTopics")} id="checkedTopics" />
+                        <label className="form-check-label" htmlFor="checkedTopics">
+                          Topics
+                        </label>
+                      </div>
+
+
+                      <div className="form-check m-2">
+                        <input className="form-check-input bg-dark" type="checkbox" checked={this.state.checkedKeywords}
+                              onChange={this.handleCheckbox("checkedKeywords")} id="checkedKeywords" />
+                        <label className="form-check-label" htmlFor="checkedKeywords">
+                          Keywords
+                        </label>
+                      </div>
+
+                    </div>
+                </div>
+                <div className="w-100">
+                  {this.state.activePage * 25 <= total && (
+                      <small>
+                        Viewing: {(this.state.activePage - 1) * 25 + 1} -{" "}
+                        {this.state.activePage * 25} of {total}{" "}
+                        &nbsp;&nbsp;&nbsp;&nbsp; Click on a title to view item
+                        details.
+                      </small>
                     )}
                     {this.state.activePage * 25 > total && (
-                      <div>
-                        <b className="textCSS">
-                          Viewing: {(this.state.activePage - 1) * 25 + 1} -{" "}
-                          {total} of {total} &nbsp;&nbsp;&nbsp;&nbsp; Click on a
-                          title to view item details.
-                        </b>
-                      </div>
+                      <small>
+                        Viewing: {(this.state.activePage - 1) * 25 + 1} -{" "}
+                        {total} of {total} &nbsp;&nbsp;&nbsp;&nbsp; Click on a
+                        title to view item details.
+                      </small>
                     )}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs="4" lg="2">
+                </div>
+
+                <div className="row mt-3">
+                  <div className="col-lg-3 col-sm-12">
                     <button
-                      className="btn btn-default"
+                      className="btn btn-outline-secondary w-100"
                       type="button"
                       onClick={() => this.handleClick()}
                     >
-                      <FontAwesomeIcon size="1x" icon={faWindowRestore} />
-                      &nbsp;&nbsp;Reset
+                      <FontAwesomeIcon className="mr-3" size="1x" icon={faWindowRestore} />
+                      Reset Filters
                     </button>
                     <br />
-                    <div className="terms">
+                    <ul className="w-100 list-unstyled">
                       {aggregations.Affiliation && aggregations.Affiliation.length > 1 ?
 
-                        <>
+                        <li>
                           <b className="selectionHeader">
                           By Affiliation:</b> <br />
                           {aggregations.Affiliation.map((affiliation, affiliationIndex) => (
@@ -431,12 +405,12 @@ class App extends Component {
                           {" (" + affiliation.count + ")"}
                         </div>
                       ))}
-                        </>: null
+                        </li>: null
                       }
 
                       {aggregations.ResourceGroup && aggregations.ResourceGroup.length > 1 ?
 
-                        <>
+                        <li>
                           <b className="selectionHeader">By Resource Group:</b>{" "}
                           <br />
                           {aggregations.ResourceGroup.map((ResourceGroup, ResourceGroupIndex) => (
@@ -459,11 +433,11 @@ class App extends Component {
                               <br />
                             </div>
                           ))}
-                        </>: null
+                        </li>: null
                       }
 
                       {aggregations.ResourceGroup && aggregations.ResourceGroup.length > 1 ?
-                        <>
+                        <li>
                           <b className="selectionHeader">By Type:</b> <br />
                           {aggregations.Type.map((Type, TypeIndex) => (
                         <div
@@ -485,87 +459,90 @@ class App extends Component {
                           <br />
                         </div>
                       ))}
-                        </> : null
+                        </li> : null
                       }
 
-                      <b className="selectionHeader">By Provider:</b> <br />
-                      {aggregations.ProviderID.map((Provider, ProviderIndex) => (
-                        <div
-                          className="selectionDetails"
-                          key={ProviderIndex}
-                        >
+                      <li>
+                        <small>By Provider:</small>
+                        <ul className="list-unstyled">
+                          {aggregations.ProviderID.map((Provider, ProviderIndex) => (
+                          <li key={ProviderIndex}>
+                            <Link
+                              to={this.props}
+                              className="btn btn-link"
+                              onClick={() =>
+                                this.setState({
+                                  provider: Provider.ID
+                                })
+                              }
+                            >
+                              {/*<FontAwesomeIcon size="sm" icon={faCog} />{" "}*/}
+                              <small>{Provider.Name}</small>
+                            </Link>
+                            {" (" + Provider.count + ")"}
+                            <br />
+                          </li>
+                        ))}
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col-lg-9 col-sm-12">
+                    {result.map((resource, resourceIndex) => (
+                      <div className="w-100 mb-2" key={resourceIndex}>
+                        {/*<h3>{resource.Affiliation}</h3>*/}
+                        <h3 className="mb-0">
                           <Link
                             to={this.props}
+                            className="btn btn-link text-dark"
                             onClick={() =>
                               this.setState({
-                                provider: Provider.ID
+                                resourceID: resource.ID,
+                                individualTrue: true
                               })
                             }
                           >
-                            <FontAwesomeIcon size="1x" icon={faCog} />{" "}
-                            {Provider.Name}
+                            {resource.ShortDescription}
                           </Link>
-                          {" (" + Provider.count + ")"}
-                          <br />
-                        </div>
-                      ))}
-                    </div>
-                  </Col>
-                  <Col xs="8" lg="10">
-                    <div className="results">
-                      {result.map((resource, resourceIndex) => (
-                        <div key={resourceIndex}>
-                          <article className="result">
-                            {/*<h3>{resource.Affiliation}</h3>*/}
-                            <h2>
-                              <Link
-                                to={this.props}
-                                onClick={() =>
-                                  this.setState({
-                                    resourceID: resource.ID,
-                                    individualTrue: true
-                                  })
-                                }
-                              >
-                                {resource.ShortDescription}
-                              </Link>
-                            </h2>
-                            <div className="details">
-                              <div className="smallDetails">
+                        </h3>
+                        <div className="w-100">
+                          <div className="w-100 d-flex">
+                            <div>
+                              <div className="d-inline p-1">
                                 {TypeMapping(resource.Type)}
-                                {"  " +
-                                  resource.Type +
-//                                  "; Affiliation: " +
-//                                  resource.Affiliation +
-                                  " "
-                                  }
-                                <div className="noNewLine">
-                                  <FontAwesomeIcon size="1x" icon={faCog} />
-                                  <div className="noNewLine">
-                                    {ProviderIDMapping(
-                                      resource.ProviderID,
-                                      aggregations.ProviderID
-                                    )}
-                                  </div>
-                                </div>
                               </div>
-                              {/*<p*/}
-                              {/*  dangerouslySetInnerHTML={{*/}
-                              {/*    __html: resource.Description*/}
-                              {/*  }}*/}
-                              {/*></p>*/}
+                              <div className="d-inline p-1 small">
+                                {resource.Type}
+                              </div>
                             </div>
-                          </article>
+                            <div>
+                              <div className="d-inline p-1">
+                                <FontAwesomeIcon size="sm" icon={faCog} />
+                              </div>
+                              <div className="d-inline p-1 small">
+                                {ProviderIDMapping(
+                                  resource.ProviderID,
+                                  aggregations.ProviderID
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          {/*<div className="w-100 overflow-hidden" style={{maxHeight: "100px"}}*/}
+                          {/*  dangerouslySetInnerHTML={{*/}
+                          {/*    __html: resource.Description*/}
+                          {/*  }}*/}
+                          {/*></div>*/}
                         </div>
-                      ))}
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={{ span: 8, offset: 4 }} lg={{ span: 10, offset: 2 }}>
+                      </div>
+                    ))}
+
+                    <div className="mt-4 w-100">
                     <Pagination
+                        className="mb-0"
                       itemClass="page-item"
+                      activeClass="bg-dark text-white"
                       linkClass="page-link"
+                      activeLinkClass="bg-dark text-white"
                       activePage={this.state.activePage}
                       itemsCountPerPage={25}
                       totalItemsCount={total}
@@ -573,11 +550,12 @@ class App extends Component {
                       hideFirstLastPages={true}
                       onChange={this.handlePageChange.bind(this)}
                     />
-                    <b className="textCSS">
+                    <small className="text-medium">
                       Query Took: {this.state.searchTime}ms
-                    </b>
-                  </Col>
-                </Row>
+                    </small>
+                </div>
+                  </div>
+                </div>
               </div>
             </Container>
           </React.Fragment>
@@ -589,7 +567,7 @@ class App extends Component {
         <Container fluid>
           <div className="page">
             <h1 className="title">{this.getTitle()}</h1>
-            <button className="btn btn-primary" onClick={this.BackPage}>
+            <button className="btn btn-dark" onClick={this.BackPage}>
               <FontAwesomeIcon size="1x" icon={faArrowLeft} />
             </button>
             <Row>
@@ -598,36 +576,38 @@ class App extends Component {
                   {result.map((resource, resourceIndex) => (
                     <div key={resourceIndex} className="article">
                       <article className="result">
-                        <div className="individualh1">
-                          <b>{resource.ShortDescription}</b>
-                        </div>
-                        <br />
-                        <div className="details">
-                          <b>Description:</b>
+                        <h2>{resource.ShortDescription}</h2>
+                        <div className="w-100 mt-3">
+                          <h3>Description</h3>
                           <div
                             dangerouslySetInnerHTML={{
                               __html: resource.Description
                             }}
                           ></div>
-                          <br />
-                          <h1>{resource.ResourceGroup} Type:&nbsp;</h1>
-                          <h2> {" " + resource.Type}</h2>
-                          <br />
-                          <h1>Attributes</h1>
-                          <br />
+                        </div>
+
+                        <div className="w-100 mt-3">
+                          <h3>{resource.ResourceGroup} Type:&nbsp;</h3>
+                          <div>{resource.Type}</div>
+                        </div>
+
+                        <div className="w-100 mt-3">
+                          <h3>Attributes</h3>
                           {KeyWords(resource.Keywords)}
                           {QualityLevel(resource.QualityLevel)}
                           {Audience(resource.Affiliation)}
-                          <br />
-                          <h1>Relations</h1>
-                          <br />
+                        </div>
+
+                        <div className="w-100 mt-3 mb-3">
+                          <h3>Relations</h3>
                           {resource.Relations &&
                             resource.Relations.map((relation, relationIndex) => (
                               <div key={relationIndex}>
                                 <b>{relation.RelationType} : </b>
                                 {relation.Name}
                               </div>
-                            ))}
+                            ))
+                          }
                         </div>
                       </article>
                     </div>
