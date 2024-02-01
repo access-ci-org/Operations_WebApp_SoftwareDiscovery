@@ -18,9 +18,29 @@ Created with CodeSandbox
             resourceGroup:"Software"
         }
     </script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_SoftwareDiscovery@2.0.11/build/static/js/main.js"></script>
-    <link href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_SoftwareDiscovery@2.0.11/build/static/css/main.css" rel="stylesheet">
+    <script defer="defer" src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_SoftwareDiscovery@2.0.12/build/static/js/main.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_SoftwareDiscovery@2.0.12/build/static/css/main.css" rel="stylesheet">
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="Operations_WebApp_SoftwareDiscovery"></div>
 ```
+
+# Build
+
+## Development server
+
+`npm run start`
+
+[http://localhost:3000/](http://localhost:3000/)
+
+## Release
+
+`npm version patch`
+
+or
+
+`npm version minor`
+
+or
+
+`npm version major`
