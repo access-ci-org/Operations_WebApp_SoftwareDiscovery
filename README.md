@@ -18,10 +18,9 @@ Created with CodeSandbox
             resourceGroup:"Software"
         }
     </script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/gh/access-ci-org/react-webapp-pilot@2.0.2/build/static/js/main.js"></script>
-    <link href="https://cdn.jsdelivr.net/gh/access-ci-org/react-webapp-pilot@2.0.2/build/static/css/main.css" rel="stylesheet">
+    <script defer="defer" src="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_SoftwareDiscovery@2.0.11/build/static/js/main.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/access-ci-org/Operations_WebApp_SoftwareDiscovery@2.0.11/build/static/css/main.css" rel="stylesheet">
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="Operations_WebApp_SoftwareDiscovery"></div>
-
 ```
