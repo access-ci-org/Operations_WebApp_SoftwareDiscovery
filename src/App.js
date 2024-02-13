@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import "./scss/style.scss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { faRunning } from "@fortawesome/free-solid-svg-icons";
@@ -388,7 +388,7 @@ class App extends Component {
                       type="button"
                       onClick={() => this.handleClick()}
                     >
-                      <FontAwesomeIcon className="mr-3" size="1x" icon={faWindowRestore} />
+                      <FontAwesomeIcon className="mr-3" size="1x" icon={faWindowRestore} />&nbsp;
                       Reset Filters
                     </button>
                     <br />
