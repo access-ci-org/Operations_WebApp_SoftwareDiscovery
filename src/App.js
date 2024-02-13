@@ -40,9 +40,10 @@ function KeyWords(CurrentKeyWords) {
   if (CurrentKeyWords !== "" && CurrentKeyWords !== null) {
     return (
       <React.Fragment>
-        <b>&nbsp;KeyWords&nbsp;</b>
-        <div className="attributes">{CurrentKeyWords}</div>
-        <br />
+        <div className="d-flex flex-row">
+          <strong>KeyWords : </strong>
+          <div className="attributes">{CurrentKeyWords}</div>
+        </div>
       </React.Fragment>
     );
   }
@@ -52,9 +53,10 @@ function QualityLevel(CurrentQualityLevel) {
   if (CurrentQualityLevel !== "" && CurrentQualityLevel !== null) {
     return (
       <React.Fragment>
-        <b>Quality Level : </b>
-        <div className="attributes">{CurrentQualityLevel}</div>
-        <br />
+        <div className="d-flex flex-row">
+          <strong>Quality Level : </strong>
+          <div className="attributes">{CurrentQualityLevel}</div>
+        </div>
       </React.Fragment>
     );
   }
@@ -64,9 +66,10 @@ function Audience(CurrentAudience) {
   if (CurrentAudience !== "" && CurrentAudience !== null) {
     return (
       <React.Fragment>
-        <b>Audience : </b>
-        <div className="attributes">{CurrentAudience}</div>
-        <br />
+        <div className="d-flex flex-row">
+          <strong>Audience : </strong>
+          <div className="attributes">{CurrentAudience}</div>
+        </div>
       </React.Fragment>
     );
   }
