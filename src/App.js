@@ -172,6 +172,11 @@ class App extends Component {
   async componentDidMount() {
     console.log("didmount called....");
     console.log("individualTrue = ", this.state.individualTrue);
+
+    this.setState({
+      loading: true
+    });
+
     //https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?resource_groups=Software&page=1
     //https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?resource_groups=Software&page=1&format=json
     if (this.state.individualTrue === false) {
@@ -246,7 +251,7 @@ class App extends Component {
       this.setState({
         searchTime:
           currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore,
-        result: data.results,
+        results: data.results,
         aggregations: data.aggregations,
         total: data.count,
         loading: false,
@@ -254,6 +259,10 @@ class App extends Component {
         ...stateFromSettings
       });
     } else if (this.state.individualTrue === true) {
+      this.setState({
+        loading: true
+      });
+
       // const { id } = this.props.id;
       // const {id} = this.props.match.params;
       // console.log('properties = ', this.props);
@@ -283,7 +292,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading, result, aggregations, total, individualTrue } = this.state;
+    const { loading, result, results, aggregations, total, individualTrue } = this.state;
     if (loading) {
       return (
         <div>
@@ -491,7 +500,7 @@ class App extends Component {
                     </ul>
                   </div>
                   <div className="col-lg-9 col-sm-12">
-                    {result.map((resource, resourceIndex) => (
+                    {results.map((resource, resourceIndex) => (
                       <div className="w-100 mb-2" key={resourceIndex}>
                         {/*<h3>{resource.Affiliation}</h3>*/}
                         <h3 className="mb-0">
