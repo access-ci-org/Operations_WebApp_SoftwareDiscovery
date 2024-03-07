@@ -88,6 +88,7 @@ class App extends Component {
             result: [],
             aggregations: [],
             searchTerm: "",
+            searchTermTemp: "",
             searchField: "",
             total: 0,
             resourceID: "",
@@ -100,17 +101,23 @@ class App extends Component {
             checkedDescription: true,
             checkedTopics: true,
             checkedKeywords: true,
-            searchTime: 0
+            searchTime: 0,
+            ...this.getStateFromSettings()
         };
     }
 
     handleCheckbox = (name) => (event) => {
-        this.setState({[name]: event.target.checked});
+        this.setState({
+            ...this.state,
+            activePage: 1,
+            [name]: event.target.checked
+        });
     };
 
     handleSearchTerm = (event) => {
         this.setState({
-            searchTerm: event.target.value
+            ...this.state,
+            searchTermTemp: event.target.value
         });
     };
 
@@ -122,68 +129,95 @@ class App extends Component {
     }
 
     handleSearchButton = () => {
+        // console.log("handleSearchButton")
         this.setState({
-            activePage: 1
+            ...this.state,
+            searchTerm: this.state.searchTermTemp,
+            resourceID: "",
+            affiliation: "",
+            resourceGroup: "",
+            type: "",
+            provider: "",
+            activePage: 1,
+            ...this.getStateFromSettings()
         });
-        this.componentDidMount();
     };
 
     handlePageChange(activePage) {
         //console.log(`active page is ${pageNumber - 1}`);
         this.setState({
+            ...this.state,
             activePage: activePage,
-            searchTerm: ""
         });
     }
 
     BackPage = () => {
         // console.log("back page");
-        this.setState({individualTrue: false});
+        this.setState({
+            ...this.state,
+            individualTrue: false
+        });
     };
 
     handleClick = () => {
         // console.log("reset");
         this.setState({
+            ...this.state,
             individualTrue: false,
             searchTerm: "",
+            searchTermTemp: "",
             searchField: "",
             resourceID: "",
-            affiliation: window.SETTINGS.affiliation,
-            resourceGroup: window.SETTINGS.resourceGroup,
+            affiliation: "",
+            resourceGroup: "",
             type: "",
             provider: "",
             activePage: 1,
             checkedName: true,
             checkedDescription: true,
             checkedTopics: true,
-            checkedKeywords: true
+            checkedKeywords: true,
+            ...this.getStateFromSettings()
         });
-        this.componentDidMount();
     };
 
     componentDidUpdate(prevProps, prevState) {
         if (
             prevState.individualTrue !== this.state.individualTrue ||
-            //prevState.activePage !== this.state.activePage ||
+            prevState.searchTerm !== this.state.searchTerm ||
             prevState.affiliation !== this.state.affiliation ||
             prevState.resourceGroup !== this.state.resourceGroup ||
             prevState.type !== this.state.type ||
-            prevState.provider !== this.state.provider
+            prevState.provider !== this.state.provider ||
+            prevState.activePage !== this.state.activePage
         ) {
-            this.setState({
-                activePage: 1
-            });
-            this.componentDidMount();
-        } else if (prevState.activePage !== this.state.activePage) {
-            this.componentDidMount();
+            this.fetchData();
         }
     }
 
     async componentDidMount() {
-        // console.log("didmount called....");
+        await this.fetchData();
+    }
+
+    getStateFromSettings() {
+        let stateFromSettings = {}
+        if (window.SETTINGS.resourceGroup) {
+            stateFromSettings["resourceGroup"] = window.SETTINGS.resourceGroup;
+        }
+
+        if (window.SETTINGS.affiliation) {
+            stateFromSettings["affiliation"] = window.SETTINGS.affiliation;
+        }
+
+        return stateFromSettings;
+    }
+
+    async fetchData() {
+        console.log("fetchData called....");
         // console.log("individualTrue = ", this.state.individualTrue);
 
         this.setState({
+            ...this.state,
             loading: true
         });
 
@@ -243,22 +277,18 @@ class App extends Component {
             var currentTimeInMillisecondsAfter = Date.now();
             //this.state.searchTime = currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore;
 
-            let stateFromSettings = {}
             if (window.SETTINGS.resourceGroup) {
                 data.aggregations.ResourceGroup = data.aggregations.ResourceGroup
                     .filter(({Name}) => Name === window.SETTINGS.resourceGroup);
-
-                stateFromSettings["resourceGroup"] = window.SETTINGS.resourceGroup;
             }
 
             if (window.SETTINGS.affiliation) {
                 data.aggregations.Affiliation = data.aggregations.Affiliation
                     .filter(({Name}) => Name === window.SETTINGS.affiliation);
-
-                stateFromSettings["affiliation"] = window.SETTINGS.affiliation;
             }
 
             this.setState({
+                ...this.state,
                 searchTime:
                     currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore,
                 results: data.results,
@@ -266,10 +296,11 @@ class App extends Component {
                 total: data.count,
                 loading: false,
                 resourceGroup: "Software",
-                ...stateFromSettings
+                ...this.getStateFromSettings()
             });
         } else if (this.state.individualTrue === true) {
             this.setState({
+                ...this.state,
                 loading: true
             });
 
@@ -287,6 +318,7 @@ class App extends Component {
             const response = await fetch(url);
             const data = await response.json();
             this.setState({
+                ...this.state,
                 result: data.results,
                 loading: false
             });
@@ -322,7 +354,7 @@ class App extends Component {
                                     <input
                                         className="form-control form-control-sm"
                                         type="text"
-                                        value={this.state.searchTerm}
+                                        value={this.state.searchTermTemp}
                                         onChange={this.handleSearchTerm}
                                         onKeyDown={this.handleSearchKeyDown}
                                     />
@@ -424,6 +456,8 @@ class App extends Component {
                                                                 to={this.props}
                                                                 onClick={() =>
                                                                     this.setState({
+                                                                        ...this.state,
+                                                                        activePage: 1,
                                                                         affiliation: affiliation.Name
                                                                     })
                                                                 }
@@ -451,6 +485,8 @@ class App extends Component {
                                                                 to={this.props}
                                                                 onClick={() =>
                                                                     this.setState({
+                                                                        ...this.state,
+                                                                        activePage: 1,
                                                                         resourceGroup: ResourceGroup.Name
                                                                     })
                                                                 }
@@ -477,6 +513,8 @@ class App extends Component {
                                                                 to={this.props}
                                                                 onClick={() =>
                                                                     this.setState({
+                                                                        ...this.state,
+                                                                        activePage: 1,
                                                                         type: Type.Name
                                                                     })
                                                                 }
@@ -501,6 +539,8 @@ class App extends Component {
                                                                 className="btn btn-link"
                                                                 onClick={() =>
                                                                     this.setState({
+                                                                        ...this.state,
+                                                                        activePage: 1,
                                                                         provider: Provider.ID
                                                                     })
                                                                 }
@@ -530,6 +570,8 @@ class App extends Component {
                                                             className="btn btn-link text-dark"
                                                             onClick={() =>
                                                                 this.setState({
+                                                                    ...this.state,
+                                                                    activePage: 1,
                                                                     resourceID: resource.ID,
                                                                     individualTrue: true
                                                                 })
