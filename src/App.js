@@ -353,7 +353,7 @@ class App extends Component {
                                 <div className=" w-100 d-flex flex-row">
                                     <input
                                         className="form-control form-control-sm"
-                                        type="text"
+                                        type="text" autoFocus={true}
                                         value={this.state.searchTermTemp}
                                         onChange={this.handleSearchTerm}
                                         onKeyDown={this.handleSearchKeyDown}
