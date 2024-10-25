@@ -11,8 +11,9 @@ import {faCloud} from "@fortawesome/free-solid-svg-icons";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {faWindowRestore} from "@fortawesome/free-solid-svg-icons";
-import {Container, Row, Col} from "react-bootstrap";
+import {Container, Row, Col, Alert} from "react-bootstrap";
 import Pagination from "react-js-pagination";
+import "./index.css";
 
 function ProviderIDMapping(CurrentProviderID, ProviderArray) {
     for (let i = 0; i < ProviderArray.length; i++) {
@@ -85,6 +86,7 @@ class App extends Component {
         this.state = {
             individualTrue: false,
             loading: true,
+            error: null,
             result: [],
             aggregations: [],
             searchTerm: "",
@@ -218,7 +220,8 @@ class App extends Component {
 
         this.setState({
             ...this.state,
-            loading: true
+            loading: true,
+            error: null
         });
 
         //https://info.xsede.org/wh1/resource-api/v3/resource_esearch/?resource_groups=Software&page=1
@@ -272,36 +275,47 @@ class App extends Component {
             // console.log(this.state.searchTerm);
             // console.log(url);
             var currentTimeInMillisecondsBefore = Date.now();
-            const response = await fetch(url);
-            const data = await response.json();
-            var currentTimeInMillisecondsAfter = Date.now();
-            //this.state.searchTime = currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore;
 
-            if (window.SETTINGS.resourceGroup) {
-                data.aggregations.ResourceGroup = data.aggregations.ResourceGroup
-                    .filter(({Name}) => Name === window.SETTINGS.resourceGroup);
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                var currentTimeInMillisecondsAfter = Date.now();
+                //this.state.searchTime = currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore;
+
+                if (window.SETTINGS.resourceGroup) {
+                    data.aggregations.ResourceGroup = data.aggregations.ResourceGroup
+                        .filter(({Name}) => Name === window.SETTINGS.resourceGroup);
+                }
+
+                if (window.SETTINGS.affiliation) {
+                    data.aggregations.Affiliation = data.aggregations.Affiliation
+                        .filter(({Name}) => Name === window.SETTINGS.affiliation);
+                }
+
+                this.setState({
+                    ...this.state,
+                    searchTime:
+                        currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore,
+                    results: data.results,
+                    aggregations: data.aggregations,
+                    total: data.count,
+                    loading: false,
+                    error: null,
+                    resourceGroup: "Software",
+                    ...this.getStateFromSettings()
+                });
+            } catch (e) {
+                this.setState({
+                    ...this.state,
+                    loading: false,
+                    error: "Unknown error fetching data"
+                });
             }
-
-            if (window.SETTINGS.affiliation) {
-                data.aggregations.Affiliation = data.aggregations.Affiliation
-                    .filter(({Name}) => Name === window.SETTINGS.affiliation);
-            }
-
-            this.setState({
-                ...this.state,
-                searchTime:
-                    currentTimeInMillisecondsAfter - currentTimeInMillisecondsBefore,
-                results: data.results,
-                aggregations: data.aggregations,
-                total: data.count,
-                loading: false,
-                resourceGroup: "Software",
-                ...this.getStateFromSettings()
-            });
         } else if (this.state.individualTrue === true) {
             this.setState({
                 ...this.state,
-                loading: true
+                loading: true,
+                error: null
             });
 
             // const { id } = this.props.id;
@@ -315,13 +329,22 @@ class App extends Component {
                 r_id +
                 "/?format=json";
 
-            const response = await fetch(url);
-            const data = await response.json();
-            this.setState({
-                ...this.state,
-                result: data.results,
-                loading: false
-            });
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                this.setState({
+                    ...this.state,
+                    result: data.results,
+                    loading: false,
+                    error: null
+                });
+            } catch (e) {
+                this.setState({
+                    ...this.state,
+                    loading: false,
+                    error: "Unknown error fetching data"
+                });
+            }
         }
     }
 
@@ -334,11 +357,21 @@ class App extends Component {
     }
 
     render() {
-        const {loading, result, results, aggregations, total, individualTrue} = this.state;
+        const {loading, error, result, results, aggregations, total, individualTrue} = this.state;
         if (loading) {
             return (
                 <div>
                     <center>Loading...</center>
+                </div>
+            );
+        } else if (error) {
+            return (
+                <div>
+                    <center>
+                        <Alert variant="warning">
+                            <strong>Error: </strong>{error}
+                        </Alert>
+                    </center>
                 </div>
             );
         }
